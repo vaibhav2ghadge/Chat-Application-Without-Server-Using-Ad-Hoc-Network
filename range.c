@@ -18,7 +18,7 @@
 #define MSEC 5000
 #define SEC  5
 #define MSG "ATAMAM"
-#define my_addr 20     //***************change it according to yours********************************//
+#define my_addr 18     //***************change it according to yours********************************//
 #define fname "neibours"
 FILE *nfp;
 int neiboursold[255];  
