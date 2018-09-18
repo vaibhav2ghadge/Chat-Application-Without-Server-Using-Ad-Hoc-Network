@@ -1,6 +1,8 @@
 #define sqfpn "sendMSGQueue"
 int btoi(unsigned char *str)
 {
+	fprintf(logfile,"\nbtoi ");
+	fflush(logfile);	
 	int i=0;
 	i+=str[0]<<0;
 	i+=str[1]<<8;
@@ -11,6 +13,8 @@ int btoi(unsigned char *str)
 
 int send_message(char *q_msg)
 {
+	fprintf(logfile,"\nsend_message ");
+	fflush(logfile);	
 	int sockfd,conn,i,k,byte,bit,count=0,to;
 	char address[addr_size];
         struct sockaddr_in server_address;
@@ -38,32 +42,41 @@ int send_message(char *q_msg)
 			count++;
 			if(neibours[i])
 			{
+				fprintf(logfile,"\n%d is online sending msg  ",i);
+				fflush(logfile);	
 				sprintf((char*)&address[addr_format_size],"%d",i);
 				server_address.sin_addr.s_addr = inet_addr(address);
         			sockfd=socket(AF_INET,SOCK_STREAM,0);
-				fprintf(stdout,"\n\n server: %s",address);
+				fprintf(logfile,"\n\n server: %s",address);
         			conn=connect(sockfd,(struct sockaddr *)&server_address,sizeof(server_address));
         			if(!conn)
         			{
+					fprintf(logfile,"\n connection successfull msg sent ");
+					fflush(logfile);	
                 			send(sockfd,(char *)&q_msg[smsg_start],message_size,MSG_CONFIRM);
 					q_msg[byte]|=1<<(bit);
         			}
         			else	
         			{
-                			fprintf(stdout,"\n Connection failed..");
+					fprintf(logfile,"\n connection failed ");
+					fflush(logfile);	
+
+                		//	fprintf(stdout,"\n Connection failed..");
         			}
 			close(sockfd);
 
 			}
 		}
 	}
-	close(sockfd);	
+	//close(sockfd);	
 	return count;
 }
 
 
 void create_M_Q_Entry(char *msg,char *q_msg)
 {
+	fprintf(logfile,"\ncreate_M_Q_Entry ");
+	fflush(logfile);	
 	int i;
 	q_msg[use_flag_start]=0x1;
 	memset((char*)&q_msg[msg_send_to_start],0x0,msg_send_to_size);
@@ -73,6 +86,8 @@ void create_M_Q_Entry(char *msg,char *q_msg)
 
 void *updateNeiboursList()
 {
+	//fprintf(logfile,"\nupdateNeighbours list ");
+	//fflush(logfile);	
 
 	FILE *nfp;
 	char c;
@@ -97,6 +112,8 @@ while(1)
 
 void get_all_values(char *message,int *ack,int *from,int *msgno,int *to,char *time,char *msg)
 {
+	fprintf(logfile,"\nget_all_values ");
+	fflush(logfile);	
 	int i; 	
 	*ack=(int)message[0];
 	*from = (int)message[1];
