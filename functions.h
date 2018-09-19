@@ -98,14 +98,17 @@ void *updateNeiboursList()
 		fprintf(stdout,"\n please run range program first ..");
 		exit(0);
 	}
+	fclose(nfp);
 while(1)
 {
+	nfp=fopen("neibours","r");
 	for(i=0;i<255;i++)
 	{
 		fscanf(nfp,"%c",&c);
 		neibours[i]=((int)c==1)?1:0;
+
 	}		
-	fseek(nfp,0,SEEK_SET);
+	fclose(nfp);
 	sleep(5);
 }
 }
