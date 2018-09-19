@@ -25,7 +25,8 @@ void openfile()
 	mmfp = fopen("mymessage","r+");
 	if(mmfp==NULL)
 		mmfp=fopen("mymessage","w");
-		fflush(mmfp);
+		fclose(mmfp);
+		mmfp = fopen("mymessage","r+");
 	sqfp = fopen(sqfpn,"r+");
 	if(!sqfp)
 	{
